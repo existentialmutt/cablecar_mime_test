@@ -13,10 +13,12 @@ mrujs.start()
 
 
 async function requestOperations(path, {accept, section_id}) {
-  const headers = {"Content-Type": "application/json"}
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').content
+  const headers = {"Content-Type": "application/json", "X-CSRF-TOKEN": csrfToken}
   if (accept) headers["Accept"] = accept
 
-  const response = await mrujs.fetch(
+
+  const response = await fetch(
     `/operations/${path}`,
     {
       method: "POST",
