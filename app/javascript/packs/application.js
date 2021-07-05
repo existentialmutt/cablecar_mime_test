@@ -28,7 +28,6 @@ async function requestOperations(path, {accept, section_id}) {
   )
 
   const json = await response.json()
-  console.log(json)
   CableReady.perform(json)
 }
 
@@ -48,3 +47,15 @@ requestOperations("respond_to_block", {accept: "application/vnd.cable-ready.json
 requestOperations("default_content_type", {accept: "application/vnd.cable-ready.json, application/json", section_id: "accept_cable_ready_then_json"})
 requestOperations("set_response_content_type", {accept: "application/vnd.cable-ready.json, application/json", section_id: "accept_cable_ready_then_json"})
 requestOperations("respond_to_block", {accept: "application/vnd.cable-ready.json, application/json", section_id: "accept_cable_ready_then_json"})
+
+function json(data) { return data.json() }
+
+async function extraSimpleFetch(path) {
+  const response = await fetch(path)
+  const json = await response.json()
+  CableReady.perform(json)
+}
+
+extraSimpleFetch("/operations/extra_simple_default_content_type")
+extraSimpleFetch("/operations/extra_simple_set_response_content_type")
+extraSimpleFetch("/operations/extra_simple_respond_to_block")
